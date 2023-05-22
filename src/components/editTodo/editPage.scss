@@ -1,0 +1,63 @@
+@import '@/assets/styles/mixins.scss';
+@import '@/assets/styles/vars.scss';
+
+
+.task-edit {
+  background-color: $background_todolist;
+  background-color: $background_todolist;
+  border-radius: 6px;
+  padding: 20px 70px;
+  width: 50%;
+  margin: 0 auto;
+  @include flex(column nowrap, space-between);
+  gap: 2rem;
+  @media (max-width: 992px) {
+    width: inherit;
+  }
+  @media (max-width: 768px) {
+    padding: 20px 30px;
+  }
+}
+
+.tast-edit__title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.task__delete-btn {
+  align-self: stretch;
+  padding: 0 10px;
+}
+
+.task-edit__head {
+  @include flex(row nowrap, space-between);
+  gap: 1rem;
+  width: 100%;
+}
+
+.line {
+  width: 100%;
+}
+
+.task-edit__input {
+  flex-basis: 80%;
+}
+
+.task-edit__subtasks {
+  width: 100%;
+}
+
+.task__subtask-item {
+  gap: 1rem;
+}
+
+
+.task-edit__add-btn {
+  padding: 10px 30px;
+}
+
+.buttons-history {
+  display: flex;
+  align-items: center;
+  gap: .5em;
+}

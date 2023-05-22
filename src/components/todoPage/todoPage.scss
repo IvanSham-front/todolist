@@ -1,0 +1,48 @@
+@import '@/assets/styles/mixins.scss';
+@import '@/assets/styles/vars.scss';
+.title {
+  text-align: center;
+  font-size: 2rem;
+  color: $text_title_grey;
+  margin-bottom: 35px;
+}
+
+.todo-page {
+  @include flex (column nowrap, space-between);
+  background-color: $background_todolist;
+  border-radius: 6px;
+  padding: 20px 140px;
+  @media (max-width: 1200px) {
+    padding: 20px 60px;
+  }
+} 
+
+.todo-page__list {
+  margin-top: 30px;
+}
+
+.todo-page__notask {
+  font-weight: bolder;
+  padding: 12px 40px;
+  background-color: $background_notask;
+  border-radius: 14px;
+}
+
+.todo-page__add {
+  margin-bottom: 20px;
+}
+
+.add-block {
+  @include flex (row nowrap, space-between);
+  gap: 1rem;
+  width: 100%;
+}
+
+.add-block__input {
+  flex-basis: 70%;
+}
+
+.add-block__btn {
+  flex-basis: 30%;
+  padding: 10px;
+}

@@ -1,0 +1,69 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  @include scrollBar()
+}
+
+.container {
+  max-width: 1100px;
+  padding: 0 10px;
+  margin: 0 auto;
+  @media (max-width: 1100px) {
+    max-width: 992px;
+    padding: 0 20px;
+  }
+}
+
+body {
+  background-color: $background_white;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  color: $text_default_grey;
+}
+
+.main {
+  padding-top: 100px;
+}
+
+input {
+  outline: none;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+input[type=checkbox] {
+  @include checkbox()
+}
+
+li {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border-radius: 4px;
+  transition: .3s;
+  border: none;
+}
+
+.edit-button {
+  background-color: $background_button_violet;
+  color: $white;
+  &:disabled {
+    background-color: $background_notask;
+    color: $text_default_grey;
+    cursor: no-drop;
+  }
+}
+
+.delete-button {
+  background-color: $background_button_red;
+  color: $white;
+}
+
+.cancel-button {
+  background-color: $white;
+  color: $background_button_red;
+}
