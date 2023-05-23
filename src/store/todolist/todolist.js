@@ -1,30 +1,6 @@
 export default {
   state: {
-    todoList: [
-      {
-        id: 0,
-        name: "adada",
-        subtasks: [
-          {
-            id: 0.0,
-            name: "adadad",
-            checked: false
-          },
-          {
-            id: 0.2,
-            name: "adadad",
-            checked: false
-          },
-          {
-            id: 0.3,
-            name: "adadad",
-            checked: false
-          }
-        ],
-        open: false,
-        checked: false
-      }
-    ],
+    todoList: [],
     currentPage: "Todo list",
   },
   getters: {

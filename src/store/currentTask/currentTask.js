@@ -2,29 +2,8 @@ import Vue from "vue"
 
 export default {
   state: {
-    currentTask: {
-      id: 0,
-      name: "adada",
-      open: false,
-      checked: false
-    },
-    subtasks: [
-      {
-        id: 0.0,
-        name: "adadad",
-        checked: false
-      },
-      {
-        id: 0.2,
-        name: "adadad",
-        checked: false
-      },
-      {
-        id: 0.3,
-        name: "adadad",
-        checked: false
-      }
-    ],
+    currentTask: null,
+    subtasks: [],
     history: [],
     currentIndex: -1,
   },
