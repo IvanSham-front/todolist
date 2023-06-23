@@ -9,17 +9,22 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 export default {
   name: 'modal-cancel',
   methods: {
+    ...mapActions(["REMOVE_TASK", "SET_CURRENT_PAGE", "SET_CLOSE_MODAL"]),
     deleteTask() {
-      this.$store.dispatch("REMOVE_TASK", this.$store.getters.currentTask)
+      this.REMOVE_TASK(this.currentTask)
       this.closeModal()
-      this.$store.dispatch("SET_CURRENT_PAGE", "Todo list")
+      this.SET_CURRENT_PAGE("Todo list")
     },
     closeModal() {
-      this.$store.dispatch("SET_CLOSE_MODAL")
+      this.SET_CLOSE_MODAL()
     }
+  },
+  computed: {
+    ...mapGetters(["currentTask"])
   }
 }
 </script>

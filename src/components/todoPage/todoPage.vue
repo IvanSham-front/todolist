@@ -1,8 +1,8 @@
 <template>
   <main class="main">
     <section class="container">
-      <h1 class="title">{{ $store.getters.currentPage }}</h1>
-      <div class="todo-page" v-if="$store.getters.currentPage === 'Todo list'">
+      <h1 class="title">{{ currentPage }}</h1>
+      <div class="todo-page" v-if="currentPage === 'Todo list'">
         <div class="todo-page__add add-block">
           <input
             class="add-block__input"
@@ -14,15 +14,15 @@
           <button
             class="add-block__btn edit-button"
             @click="addTask"
-            :disabled="!newTaskValue"
+            :disabled="newTaskValue === ''"
           >Add Task</button>
         </div>
         <todo-list/>
 
-        <div class="todo-page__notask" v-if="this.$store.getters.todoList.length === 0">No task</div>
+        <div class="todo-page__notask" v-if="noTask">No task</div>
       </div>
-      <div v-if="$store.getters.currentPage === 'Edit page'" class="edit-page">
-        <edit-page />
+      <div v-if="currentPage === 'Edit page'" class="edit-page">
+        <edit-page/>
       </div>
     </section>
 
@@ -31,17 +31,18 @@
 </template>
 
 <script>
-import todoList from "../todoList/todoList.vue";
-import editPage from "../editTodo/editPage.vue";
-import modalWidget from "../modal-widget/modal-widget.vue";
+import TodoList from "../todoList/TodoList.vue";
+import EditPage from "../editTodo/EditPage.vue";
+import ModalWidget from "../modalWidget/ModalWidget.vue";
 import "./todoPage.scss";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "todoPage",
   components: {
-    todoList,
-    editPage,
-    modalWidget
+    TodoList,
+    EditPage,
+    ModalWidget
   },
   data() {
     return {
@@ -51,36 +52,55 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("LOAD_TODOLIST")
+    this.LOAD_TODOLIST();
   },
   methods: {
+    ...mapActions([
+      "SET_CLOSE_MODAL",
+      "SAVE_TODOLIST",
+      "REMOVE_TASK",
+      "SET_CURRENT_TASK",
+      "SET_CURRENT_PAGE",
+      "SET_CLOSE_MODAL",
+      "ADD_TASK",
+      "LOAD_TODOLIST"
+    ]),
     addTask() {
       const task = {
-        id: this.$store.getters.todoList.length !== 0 ? this.$store.getters.todoList.at(-1).id + 1 : 0,
+        id:
+          this.todoList.length !== 0
+            ? this.todoList.at(-1).id + 1
+            : 0,
         name: this.newTaskValue,
         subtasks: [],
         open: false,
         checked: false
       };
-      this.$store.dispatch("ADD_TASK", task);
+      this.ADD_TASK(task);
       this.newTaskValue = "";
     },
     changeNewTaskValue(e) {
       this.newTaskValue = e.target.value;
     },
     deleteTask() {
-      this.$store.dispatch("REMOVE_TASK");
-      this.$store.dispatch("SET_CURRENT_TASK", null);
-      if (this.$store.getters.currentPage === "Edit page") {
-        this.$store.dispatch("SET_CURRENT_PAGE", "Todo list");
+      this.REMOVE_TASK();
+      this.SET_CURRENT_TASK(null);
+      if (this.currentPage === "Edit page") {
+        this.SET_CURRENT_PAGE("Todo list");
       }
     },
     closeModal() {
-      this.$store.dispatch("SET_CLOSE_MODAL")
-    },
+      this.SET_CLOSE_MODAL();
+    }
+  },
+  computed: {
+    ...mapGetters(["currentPage", "todoList"]),
+    noTask() {
+      return this.todoList.length === 0
+    }
   },
   beforeUpdate() {
-    this.$store.dispatch("SAVE_TODOLIST")
+    this.SAVE_TODOLIST();
   }
 };
 </script>

@@ -9,16 +9,23 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: 'modal-cancel',
   methods: {
+    ...mapActions([
+      "SET_CURRENT_PAGE",
+      "SET_CLOSE_MODAL",
+      "SET_CURRENT_TASK"
+    ]),
     cancelEdit() {
-      this.$store.dispatch("SET_CURRENT_PAGE", "Todo list")
-      this.closeModal()
-      this.$store.dispatch("SET_CURRENT_TASK", null)
+      this.SET_CURRENT_PAGE("Todo list");
+      this.closeModal();
+      this.SET_CURRENT_TASK(null);
     },
     closeModal() {
-      this.$store.dispatch("SET_CLOSE_MODAL")
+      this.SET_CLOSE_MODAL();
     }
   }
 }

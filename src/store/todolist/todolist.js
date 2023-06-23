@@ -79,7 +79,9 @@ export default {
     },
     LOAD_TODOLIST: (state) => {
       const todolist  = window.localStorage.getItem("todolist")
-      state.commit("set_todolist", JSON.parse(todolist))
+      if (todolist && todolist !== 'null') {
+        state.commit("set_todolist", JSON.parse(todolist))
+      }
     }
   },
 }

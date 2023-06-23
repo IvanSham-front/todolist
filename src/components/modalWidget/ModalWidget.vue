@@ -8,13 +8,13 @@
 
 <script>
 import "./modal.scss";
-import modalCancel from "./modal-edit/modal-cancel.vue";
-import modalDelete from "./modal-delete/modal-delete.vue";
+import ModalCancel from "./modalCancel/ModalCancel.vue";
+import ModalDelete from "./modalDelete/ModalDelete.vue";
 export default {
   name: "modal-widget",
   components: {
-    modalCancel,
-    modalDelete
+    ModalCancel,
+    ModalDelete
   },
   methods: {}
 };

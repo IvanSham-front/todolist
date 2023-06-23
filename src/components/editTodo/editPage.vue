@@ -1,11 +1,8 @@
 <template>
   <section class="task-edit task-edit__inner">
     <div class="buttons-history">
-      <button @click="undoChanges" :disabled="$store.getters.historyIndex <= 0">&#8592;</button>
-      <button
-        @click="rendoChanges"
-        :disabled="$store.getters.historyIndex >= $store.getters.history.length -1"
-      >&#8594;</button>
+      <button @click="undoChanges" :disabled="disabledUndo">&#8592;</button>
+      <button @click="rendoChanges" :disabled="disabledRendo">&#8594;</button>
     </div>
     <h2 class="task-edit__title">select title task</h2>
     <div class="task-edit__head">
@@ -63,7 +60,7 @@
 
 <script>
 import "./editPage.scss";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "editPage",
@@ -73,8 +70,21 @@ export default {
     };
   },
   methods: {
+    ...mapActions([
+      "SET_CURRENT_TASK_NAME",
+      "ADD_CURRENT_TASK_SUBTASK",
+      "SET_CURRENT_TASK_SUBTASK_NAME",
+      "REMOVE_CURRENT_TASK_SUBTASK",
+      "SET_OPEN_MODAL",
+      "ACCEPT_EDIT_CURRENT_TASK",
+      "TOGGLE_CHECK_CURRENT_TASK",
+      "TOGGLE_CHECK_CURRENT_TASK_SUBTASK",
+      "UNDO_HISTORY",
+      "RENDO_HISTORY",
+      "SET_CURRENT_PAGE"
+    ]),
     changeCurrentTaskName(e) {
-      this.$store.dispatch("SET_CURRENT_TASK_NAME", e.target.value);
+      this.SET_CURRENT_TASK_NAME(e.target.value);
     },
     addSubtask() {
       const newSubTask = {
@@ -82,21 +92,21 @@ export default {
         checked: false,
         name: ""
       };
-      this.$store.dispatch("ADD_CURRENT_TASK_SUBTASK", newSubTask);
+      this.ADD_CURRENT_TASK_SUBTASK(newSubTask);
     },
     changeSubtaskName(e, id) {
       if (e && e.target) {
-        this.$store.dispatch("SET_CURRENT_TASK_SUBTASK_NAME", {
+        this.SET_CURRENT_TASK_SUBTASK_NAME({
           value: e.target.value,
           id
         });
       }
     },
     deleteSubtask(id) {
-      this.$store.dispatch("REMOVE_CURRENT_TASK_SUBTASK", id);
+      this.REMOVE_CURRENT_TASK_SUBTASK(id);
     },
     openModalCancelChanges() {
-      this.$store.dispatch("SET_OPEN_MODAL", "modal-cancel");
+      this.SET_OPEN_MODAL("modal-cancel");
     },
     acceptEditCurrentTask() {
       const sendData = {
@@ -106,44 +116,43 @@ export default {
           subtasks: this.subtasks
         }
       };
-      this.$store.dispatch("ACCEPT_EDIT_CURRENT_TASK", sendData);
-      this.$store.dispatch("SET_CURRENT_PAGE", "Todo list");
-      this.$store.dispatch("SET_CURRENT_TASK", null);
+      this.ACCEPT_EDIT_CURRENT_TASK(sendData);
+      this.SET_CURRENT_PAGE("Todo list");
+      this.SET_CURRENT_TASK(null);
     },
-
     toggleCheckTaskes(event) {
-      this.$store.dispatch("TOGGLE_CHECK_CURRENT_TASK", event.target.checked);
+      this.TOGGLE_CHECK_CURRENT_TASK(event.target.checked);
     },
     toggleCheckSubTask(event, subtaskId) {
       const sendData = {
         value: event.target.checked,
         id: subtaskId
       };
-      this.$store.dispatch("TOGGLE_CHECK_CURRENT_TASK_SUBTASK", sendData);
+      this.TOGGLE_CHECK_CURRENT_TASK_SUBTASK(sendData);
     },
     openModalDeleteTask() {
-      this.$store.dispatch("SET_OPEN_MODAL", "modal-delete");
+      this.SET_OPEN_MODAL("modal-delete");
     },
     undoChanges() {
-      this.$store.dispatch("UNDO_HISTORY");
+      this.UNDO_HISTORY();
     },
     rendoChanges() {
-      this.$store.dispatch("RENDO_HISTORY")
+      this.RENDO_HISTORY();
     }
   },
   computed: {
-    ...mapGetters(["subtasks", "currentTask"]),
+    ...mapGetters(["subtasks", "currentTask", "historyIndex", "history"]),
     nextIndex() {
       return this.subtasks.length === 0 ? 0 : this.subtasks.length + 1;
     },
     checkEmptySubtasks() {
-      let flag = true;
-      this.subtasks.forEach(item => {
-        if (!item.name) {
-          flag = false;
-        }
-      });
-      return flag;
+      return this.subtasks.every(item => item.name !== '');
+    },
+    disabledUndo() {
+      return this.historyIndex <= 0;
+    },
+    disabledRendo() {
+      return this.historyIndex >= this.history.length - 1;
     }
   }
 };

@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import todoPage from './components/todoPage/todoPage';
+import TodoPage from './components/todoPage/TodoPage';
 import '@/assets/styles/styles.scss'
 
 export default {
   name: "App",
   components: {
-    todoPage
+    TodoPage
   },
 };
 </script>

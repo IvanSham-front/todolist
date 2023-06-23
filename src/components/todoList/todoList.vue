@@ -47,13 +47,23 @@
 
 <script>
 import "./todoList.scss";
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "todoList",
   data() {
     return {};
   },
   methods: {
+    ...mapActions([
+      "SET_CURRENT_TASK",
+      "SET_CURRENT_PAGE",
+      "TOGGLE_CHECK_TASK",
+      "SAVE_TODOLIST",
+      "TOGGLE_CHECK_SUBTASK",
+      "SAVE_TODOLIST",
+      "TOGGLE_OPEN_TASK",
+      "SET_OPEN_MODAL"
+    ]),
     taskName(name, subtasks) {
       let value = name;
       if (subtasks.length > 0) {
@@ -68,35 +78,35 @@ export default {
       return value;
     },
     editTask(task) {
-      this.$store.dispatch("SET_CURRENT_TASK", task);
-      this.$store.dispatch("SET_CURRENT_PAGE", "Edit page");
+      this.SET_CURRENT_TASK(task);
+      this.SET_CURRENT_PAGE("Edit page");
     },
     toggleCheckTaskes(event, taskId) {
-      this.$store.dispatch("TOGGLE_CHECK_TASK", {
+      this.TOGGLE_CHECK_TASK({
         value: event.target.checked,
         taskId
       });
-      this.$store.dispatch("SAVE_TODOLIST")
+      this.SAVE_TODOLIST();
     },
     toggleCheckSubTask(event, taskId, subtaskId) {
-      this.$store.dispatch("TOGGLE_CHECK_SUBTASK", {
+      this.TOGGLE_CHECK_SUBTASK({
         value: event.target.checked,
         taskId,
         subtaskId
       });
-      this.$store.dispatch("SAVE_TODOLIST")
+      this.SAVE_TODOLIST();
     },
     toggleOpenTask(id) {
-      this.$store.dispatch("TOGGLE_OPEN_TASK", id);
+      this.TOGGLE_OPEN_TASK(id);
     },
     openModalDeleteTask(id) {
-      const task = this.todoList.find(item => item.id === id)
-      this.$store.dispatch("SET_CURRENT_TASK", task)
-      this.$store.dispatch("SET_OPEN_MODAL", "modal-delete")
+      const task = this.todoList.find(item => item.id === id);
+      this.SET_CURRENT_TASK(task);
+      this.SET_OPEN_MODAL("modal-delete");
     }
   },
   computed: {
-    ...mapGetters(['todoList']),
+    ...mapGetters(["todoList"])
   }
 };
 </script>
