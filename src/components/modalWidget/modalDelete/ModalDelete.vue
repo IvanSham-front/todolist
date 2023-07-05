@@ -17,7 +17,9 @@ export default {
     deleteTask() {
       this.REMOVE_TASK(this.currentTask)
       this.closeModal()
-      this.SET_CURRENT_PAGE("Todo list")
+      if (this.$route.path !== '/') {
+        this.$router.push("/")
+      }
     },
     closeModal() {
       this.SET_CLOSE_MODAL()

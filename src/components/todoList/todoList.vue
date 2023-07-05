@@ -79,7 +79,7 @@ export default {
     },
     editTask(task) {
       this.SET_CURRENT_TASK(task);
-      this.SET_CURRENT_PAGE("Edit page");
+      this.$router.push('/edit/' + task.id);
     },
     toggleCheckTaskes(event, taskId) {
       this.TOGGLE_CHECK_TASK({

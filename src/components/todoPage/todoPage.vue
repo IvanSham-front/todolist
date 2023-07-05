@@ -21,19 +21,12 @@
 
         <div class="todo-page__notask" v-if="noTask">No task</div>
       </div>
-      <div v-if="currentPage === 'Edit page'" class="edit-page">
-        <edit-page/>
-      </div>
     </section>
-
-    <modal-widget/>
   </main>
 </template>
 
 <script>
 import TodoList from "../todoList/TodoList.vue";
-import EditPage from "../editTodo/EditPage.vue";
-import ModalWidget from "../modalWidget/ModalWidget.vue";
 import "./todoPage.scss";
 import { mapActions, mapGetters } from "vuex";
 
@@ -41,8 +34,6 @@ export default {
   name: "todoPage",
   components: {
     TodoList,
-    EditPage,
-    ModalWidget
   },
   data() {
     return {
@@ -50,9 +41,6 @@ export default {
       activeModal: "",
       modalShow: false
     };
-  },
-  mounted() {
-    this.LOAD_TODOLIST();
   },
   methods: {
     ...mapActions([

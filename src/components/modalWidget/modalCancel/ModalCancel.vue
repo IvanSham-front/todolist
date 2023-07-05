@@ -20,7 +20,7 @@ export default {
       "SET_CURRENT_TASK"
     ]),
     cancelEdit() {
-      this.SET_CURRENT_PAGE("Todo list");
+      this.$router.push("/");
       this.closeModal();
       this.SET_CURRENT_TASK(null);
     },

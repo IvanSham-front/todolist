@@ -1,17 +1,25 @@
 <template>
   <div>
-    <todo-page />
+    <router-view></router-view>
+    <modal-widget/>
   </div>
 </template>
 
 <script>
-import TodoPage from './components/todoPage/TodoPage';
 import '@/assets/styles/styles.scss'
+import ModalWidget from "./components/modalWidget/ModalWidget.vue";
+import { mapActions } from 'vuex';
 
 export default {
   name: "App",
   components: {
-    TodoPage
+    ModalWidget
   },
+  mounted() {
+    this.LOAD_TODOLIST();
+  },
+  methods: {
+    ...mapActions(['LOAD_TODOLIST'])
+  }
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <section class="task-edit task-edit__inner">
+  <section class="task-edit task-edit__inner" v-if="currentTask">
     <div class="buttons-history">
       <button @click="undoChanges" :disabled="disabledUndo">&#8592;</button>
       <button @click="rendoChanges" :disabled="disabledRendo">&#8594;</button>
@@ -69,9 +69,23 @@ export default {
       timer: null
     };
   },
+  mounted() {
+    if (!this.currentTask) {
+      setTimeout(() => {
+        const routeId = this.$route.params.id
+        const currentTask = this.todoList.find(item => item.id == routeId)
+        if (currentTask) {
+          this.SET_CURRENT_TASK(currentTask)
+        } else {
+          this.$router.push('/')
+        }
+      }, 500)
+    }
+  },
   methods: {
     ...mapActions([
       "SET_CURRENT_TASK_NAME",
+      "SET_CURRENT_TASK",
       "ADD_CURRENT_TASK_SUBTASK",
       "SET_CURRENT_TASK_SUBTASK_NAME",
       "REMOVE_CURRENT_TASK_SUBTASK",
@@ -117,7 +131,7 @@ export default {
         }
       };
       this.ACCEPT_EDIT_CURRENT_TASK(sendData);
-      this.SET_CURRENT_PAGE("Todo list");
+      this.$router.push("/");
       this.SET_CURRENT_TASK(null);
     },
     toggleCheckTaskes(event) {
@@ -141,7 +155,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["subtasks", "currentTask", "historyIndex", "history"]),
+    ...mapGetters(["subtasks", "currentTask", "historyIndex", "history", "todoList"]),
     nextIndex() {
       return this.subtasks.length === 0 ? 0 : this.subtasks.length + 1;
     },
