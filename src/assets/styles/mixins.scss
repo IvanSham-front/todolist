@@ -30,6 +30,7 @@
       @include border($text_default_grey, 4px);
       transition: .3s;
       font-size: 13px;
+      flex-shrink: 0;
     }
   }
   &:checked + label {

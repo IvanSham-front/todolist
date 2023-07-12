@@ -95,7 +95,8 @@ export default {
       "TOGGLE_CHECK_CURRENT_TASK_SUBTASK",
       "UNDO_HISTORY",
       "RENDO_HISTORY",
-      "SET_CURRENT_PAGE"
+      "SET_CURRENT_PAGE",
+      "SAVE_TODOLIST"
     ]),
     changeCurrentTaskName(e) {
       this.SET_CURRENT_TASK_NAME(e.target.value);
@@ -131,6 +132,7 @@ export default {
         }
       };
       this.ACCEPT_EDIT_CURRENT_TASK(sendData);
+      this.SAVE_TODOLIST()
       this.$router.push("/");
       this.SET_CURRENT_TASK(null);
     },

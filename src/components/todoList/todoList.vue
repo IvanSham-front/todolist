@@ -1,6 +1,7 @@
 <template>
   <ul class="todo-list">
-    <li v-for="(task) in todoList" :key="task.id" class="task">
+    <li 
+      v-for="(task) in todoList" :key="task.id" class="task">
       <div class="task__inner">
         <input
           type="checkbox"
